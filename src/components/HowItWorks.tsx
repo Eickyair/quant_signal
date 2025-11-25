@@ -33,83 +33,111 @@ export default function HowItWorks() {
   ];
 
   return (
-    <section id="how-it-works" className="py-20 bg-gradient-to-b from-gray-800 to-gray-900 relative overflow-hidden">
-      {/* Background decorative elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl"></div>
+    <section id="how-it-works" className="py-12 sm:py-16 lg:py-20 bg-gray-900 relative overflow-hidden">
+      {/* Background pattern */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute inset-0" style={{
+          backgroundImage: 'radial-gradient(circle at 2px 2px, rgb(99, 102, 241) 1px, transparent 0)',
+          backgroundSize: '40px 40px'
+        }}></div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Header */}
-        <div className="text-center mb-16">
-          <span className="inline-block px-4 py-1.5 mb-4 text-sm font-semibold text-indigo-400 bg-indigo-500/10 rounded-full border border-indigo-500/20">
+        <div className="text-center mb-12 sm:mb-16 lg:mb-20">
+          <span className="inline-block px-3 sm:px-4 py-1.5 mb-3 sm:mb-4 text-xs sm:text-sm font-semibold text-indigo-400 bg-indigo-500/10 rounded-full border border-indigo-500/20">
             How It Works
           </span>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mb-3 sm:mb-4">
             Simple, Data-Driven Insights
           </h2>
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg lg:text-xl text-gray-400 max-w-2xl mx-auto px-4 sm:px-0">
             Three easy steps to smarter trading decisions
           </p>
         </div>
 
-        {/* Steps */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 relative">
-          {/* Connector line (hidden on mobile) */}
-          <div className="hidden md:block absolute top-16 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-indigo-500/20" style={{ width: 'calc(100% - 8rem)', left: '4rem' }}></div>
+        {/* Timeline Steps - Vertical on mobile, Horizontal on desktop */}
+        <div className="relative">
+          {/* Vertical line for mobile */}
+          <div className="md:hidden absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500 via-purple-500 to-indigo-500"></div>
 
-          {steps.map((step, index) => (
-            <div 
-              key={step.title} 
-              className="relative group"
-            >
-              {/* Card */}
-              <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-700/50 hover:border-gray-600 transition-all duration-300 hover:shadow-2xl hover:shadow-indigo-500/10 transform hover:-translate-y-2">
-                {/* Icon with gradient background */}
-                <div className={`relative inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br ${step.gradient} mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                  <div className="text-white">
-                    {step.icon}
+          {/* Steps Container */}
+          <div className="space-y-8 md:space-y-0 md:grid md:grid-cols-3 md:gap-6 lg:gap-12">
+            {steps.map((step, index) => (
+              <div 
+                key={step.title} 
+                className="relative md:flex md:flex-col md:items-center"
+              >
+                {/* Mobile Layout */}
+                <div className="flex md:flex-col md:items-center gap-6 md:gap-0">
+                  {/* Icon */}
+                  <div className="flex-shrink-0 md:mb-6 z-10 relative">
+                    <div className={`relative w-16 h-16 md:w-24 md:h-24 lg:w-28 lg:h-28 rounded-full bg-gradient-to-br ${step.gradient} flex items-center justify-center shadow-xl`}>
+                      <div className="text-white">
+                        {step.icon}
+                      </div>
+                      {/* Pulse ring */}
+                      <div className={`absolute inset-0 rounded-full bg-gradient-to-br ${step.gradient} animate-ping opacity-20`}></div>
+                    </div>
+                    {/* Step number badge - Desktop only */}
+                    <div className="hidden md:inline-flex absolute -bottom-3 left-1/2 -translate-x-1/2 items-center justify-center w-12 h-12 rounded-lg bg-gray-800 border-2 border-gray-700 text-lg font-bold text-white shadow-lg">
+                      {index + 1}
+                    </div>
                   </div>
-                  {/* Step number badge */}
-                  <div className="absolute -top-2 -right-2 w-7 h-7 bg-gray-900 rounded-full flex items-center justify-center text-xs font-bold text-white border-2 border-gray-800">
-                    {index + 1}
+
+                  {/* Content */}
+                  <div className="flex-1 md:text-center pt-2 md:pt-8">
+                    <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-2 sm:mb-3">
+                      {step.title}
+                    </h3>
+                    
+                    <p className="text-sm sm:text-base lg:text-lg text-gray-400 leading-relaxed md:max-w-sm md:mx-auto">
+                      {step.description}
+                    </p>
                   </div>
                 </div>
 
-                {/* Content */}
-                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-indigo-400 group-hover:to-purple-400 group-hover:bg-clip-text transition-all duration-300">
-                  {step.title}
-                </h3>
-                <p className="text-gray-400 leading-relaxed">
-                  {step.description}
-                </p>
-
-                {/* Decorative bottom gradient line */}
-                <div className={`mt-6 h-1 w-16 rounded-full bg-gradient-to-r ${step.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+                {/* Arrow connector - Desktop only */}
+                {index < steps.length - 1 && (
+                  <div className="hidden md:block absolute top-12 lg:top-14 -right-3 lg:-right-6 z-20">
+                    <svg className="w-10 h-10 lg:w-14 lg:h-14 text-indigo-500/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                  </div>
+                )}
               </div>
-
-              {/* Arrow connector (hidden on mobile, last item) */}
-              {index < steps.length - 1 && (
-                <div className="hidden md:block absolute top-16 -right-6 text-gray-600 group-hover:text-indigo-400 transition-colors duration-300 z-10">
-                  <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
-                </div>
-              )}
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
         {/* CTA Section */}
-        <div className="mt-16 text-center">
-          <div className="inline-flex items-center gap-2 text-gray-400">
-            <div className="flex -space-x-2">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 border-2 border-gray-900"></div>
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 border-2 border-gray-900"></div>
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 border-2 border-gray-900"></div>
+        <div className="mt-12 sm:mt-16 lg:mt-20">
+          <div className="bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-pink-500/10 rounded-2xl sm:rounded-3xl border border-indigo-500/20 p-6 sm:p-8 lg:p-10">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+              <div className="flex items-center gap-3 sm:gap-4">
+                <div className="flex -space-x-2 sm:-space-x-3">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 border-2 sm:border-3 border-gray-900"></div>
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 border-2 sm:border-3 border-gray-900"></div>
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 border-2 sm:border-3 border-gray-900"></div>
+                </div>
+                <div className="text-center sm:text-left">
+                  <p className="text-sm sm:text-base text-gray-300">
+                    Join <span className="font-bold text-white text-lg sm:text-xl">500+</span> traders
+                  </p>
+                  <p className="text-xs sm:text-sm text-gray-500">Already on the waitlist</p>
+                </div>
+              </div>
+              
+              <a
+                href="/waitlist"
+                className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-sm sm:text-base font-semibold rounded-xl hover:from-indigo-600 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl whitespace-nowrap"
+              >
+                Get Started
+                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </a>
             </div>
-            <span className="text-sm">Join <span className="font-semibold text-white">500+</span> traders on the waitlist</span>
           </div>
         </div>
       </div>

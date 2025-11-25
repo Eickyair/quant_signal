@@ -11,16 +11,6 @@ export default function Features() {
       gradient: 'from-blue-500 to-cyan-500',
     },
     {
-      title: 'Daily Short-List',
-      description: 'Curated opportunities delivered every morning before market open',
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-        </svg>
-      ),
-      gradient: 'from-emerald-500 to-teal-500',
-    },
-    {
       title: 'Early Access',
       description: 'Waitlist members get first look at premium features and updates',
       icon: (
@@ -29,16 +19,6 @@ export default function Features() {
         </svg>
       ),
       gradient: 'from-violet-500 to-purple-500',
-    },
-    {
-      title: 'Back-Tested Performance',
-      description: 'Historical accuracy metrics and performance analytics',
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
-        </svg>
-      ),
-      gradient: 'from-amber-500 to-orange-500',
     },
     {
       title: 'API Access',
@@ -50,16 +30,7 @@ export default function Features() {
       ),
       gradient: 'from-rose-500 to-pink-500',
     },
-    {
-      title: 'Cloud-Hosted Data',
-      description: 'Always up-to-date with real-time market information',
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
-        </svg>
-      ),
-      gradient: 'from-indigo-500 to-blue-500',
-    },
+   
   ];
 
   return (

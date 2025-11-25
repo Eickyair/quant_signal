@@ -1,4 +1,9 @@
+'use client';
+
+import { useState } from 'react';
+
 export default function WhoIsItFor() {
+  const [activeIndex, setActiveIndex] = useState(0);
   const audiences = [
     {
       title: 'Amateur Investors',
@@ -48,97 +53,151 @@ export default function WhoIsItFor() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Header */}
-        <div className="text-center mb-16">
-          <span className="inline-block px-4 py-1.5 mb-4 text-sm font-semibold text-indigo-400 bg-indigo-500/10 rounded-full border border-indigo-500/20">
+        <div className="text-center mb-12 sm:mb-16">
+          <span className="inline-block px-3 sm:px-4 py-1.5 mb-3 sm:mb-4 text-xs sm:text-sm font-semibold text-indigo-400 bg-indigo-500/10 rounded-full border border-indigo-500/20">
             Who Is It For
           </span>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mb-3 sm:mb-4">
             Built for Every Type of Trader
           </h2>
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg lg:text-xl text-gray-400 max-w-2xl mx-auto px-4 sm:px-0">
             Whether you're just starting or managing a portfolio, we've got you covered
           </p>
         </div>
 
-        {/* Audiences Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {audiences.map((audience, index) => (
-            <div
-              key={audience.title}
-              className="group relative"
-            >
-              {/* Card */}
-              <div className="relative h-full bg-gray-800/50 backdrop-blur-sm rounded-2xl border border-gray-700/50 p-8 hover:border-gray-600 transition-all duration-300 hover:shadow-2xl hover:shadow-indigo-500/10 hover:-translate-y-2">
-                {/* Gradient background on hover */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${audience.gradient} opacity-0 group-hover:opacity-5 rounded-2xl transition-opacity duration-300`}></div>
+        {/* Carousel Container */}
+        <div className="relative max-w-4xl mx-auto">
+          {/* Cards Stack */}
+          <div className="relative h-[420px] sm:h-[480px] md:h-[420px]">
+            {audiences.map((audience, index) => {
+              const isActive = index === activeIndex;
+              const isPrev = index === (activeIndex - 1 + audiences.length) % audiences.length;
+              const isNext = index === (activeIndex + 1) % audiences.length;
+              
+              let position = 'translate-x-0 opacity-0 scale-75 pointer-events-none';
+              if (isActive) {
+                position = 'translate-x-0 opacity-100 scale-100 z-30 pointer-events-auto';
+              } else if (isPrev) {
+                position = '-translate-x-[85%] sm:-translate-x-[70%] opacity-0 sm:opacity-30 scale-75 sm:scale-90 z-10 pointer-events-none sm:pointer-events-auto';
+              } else if (isNext) {
+                position = 'translate-x-[85%] sm:translate-x-[70%] opacity-0 sm:opacity-30 scale-75 sm:scale-90 z-10 pointer-events-none sm:pointer-events-auto';
+              }
 
-                {/* Content */}
-                <div className="relative">
-                  {/* Icon with gradient */}
-                  <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br ${audience.gradient} mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                    <div className="text-white">
-                      {audience.icon}
+              return (
+                <div
+                  key={audience.title}
+                  className={`absolute inset-0 transition-all duration-500 ease-out ${position}`}
+                  onClick={() => setActiveIndex(index)}
+                >
+                  <div className={`h-full bg-gray-800/50 backdrop-blur-sm rounded-3xl border-2 p-5 sm:p-8 flex flex-col ${
+                    isActive 
+                      ? 'border-indigo-500/50 shadow-2xl shadow-indigo-500/20' 
+                      : 'border-gray-700/50 cursor-pointer hover:border-gray-600'
+                  } transition-all duration-300`}>
+                    {/* Gradient background */}
+                    <div className={`absolute inset-0 bg-gradient-to-br ${audience.gradient} rounded-3xl transition-opacity duration-300 ${
+                      isActive ? 'opacity-10' : 'opacity-0'
+                    }`}></div>
+
+                    {/* Content */}
+                    <div className="relative flex flex-col h-full">
+                      {/* Icon and Number */}
+                      <div className="flex items-start justify-between mb-4 sm:mb-5">
+                        <div className={`inline-flex items-center justify-center w-14 h-14 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br ${audience.gradient} shadow-xl transition-transform duration-300 ${
+                          isActive ? 'scale-110' : 'scale-100'
+                        }`}>
+                          <div className="text-white">
+                            {audience.icon}
+                          </div>
+                        </div>
+                        <div className={`w-9 h-9 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center text-sm sm:text-lg font-bold transition-all duration-300 ${
+                          isActive 
+                            ? 'bg-gradient-to-br from-indigo-500/30 to-purple-500/30 text-white border-2 border-indigo-500/50' 
+                            : 'bg-gray-700/50 text-gray-400'
+                        }`}>
+                          {index + 1}
+                        </div>
+                      </div>
+
+                      {/* Title */}
+                      <h3 className={`text-2xl sm:text-2xl lg:text-3xl font-bold mb-2 sm:mb-3 transition-all duration-300 ${
+                        isActive 
+                          ? 'text-transparent bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text' 
+                          : 'text-white'
+                      }`}>
+                        {audience.title}
+                      </h3>
+
+                      {/* Description */}
+                      <p className="text-base sm:text-base text-gray-400 mb-4 sm:mb-5 leading-snug">
+                        {audience.description}
+                      </p>
+
+                      {/* Features list */}
+                      <ul className="space-y-3 sm:space-y-3 flex-1">
+                        {audience.features.map((feature) => (
+                          <li key={feature} className="flex items-start gap-3">
+                            <div className={`flex-shrink-0 w-6 h-6 sm:w-6 sm:h-6 rounded-lg bg-gradient-to-br ${audience.gradient} flex items-center justify-center shadow-sm transition-transform duration-200 ${
+                              isActive ? 'scale-110' : 'scale-100'
+                            }`}>
+                              <svg className="w-4 h-4 sm:w-4 sm:h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                              </svg>
+                            </div>
+                            <span className={`text-base sm:text-base leading-relaxed transition-colors duration-200 ${
+                              isActive ? 'text-white' : 'text-gray-300'
+                            }`}>
+                              {feature}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+
+                      {/* Decorative gradient line */}
+                      <div className={`mt-5 sm:mt-6 h-1 w-16 sm:w-20 rounded-full bg-gradient-to-r ${audience.gradient} transition-opacity duration-300 ${
+                        isActive ? 'opacity-100' : 'opacity-0'
+                      }`}></div>
                     </div>
                   </div>
-
-                  {/* Title */}
-                  <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-indigo-400 group-hover:to-purple-400 group-hover:bg-clip-text transition-all duration-300">
-                    {audience.title}
-                  </h3>
-
-                  {/* Description */}
-                  <p className="text-gray-400 mb-6">
-                    {audience.description}
-                  </p>
-
-                  {/* Features list */}
-                  <ul className="space-y-3">
-                    {audience.features.map((feature, featureIndex) => (
-                      <li key={feature} className="flex items-start gap-3 group/item">
-                        {/* Animated checkmark */}
-                        <div className={`flex-shrink-0 w-6 h-6 rounded-lg bg-gradient-to-br ${audience.gradient} flex items-center justify-center shadow-sm group-hover/item:scale-110 transition-transform duration-200`}>
-                          <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-                          </svg>
-                        </div>
-                        <span className="text-gray-300 leading-relaxed group-hover/item:text-white transition-colors duration-200">
-                          {feature}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  {/* Decorative gradient line */}
-                  <div className={`mt-6 h-1 w-16 rounded-full bg-gradient-to-r ${audience.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
                 </div>
+              );
+            })}
+          </div>
 
-                {/* Number badge */}
-                <div className="absolute top-6 right-6 w-8 h-8 rounded-lg bg-gray-700/50 flex items-center justify-center text-sm font-bold text-gray-400 group-hover:bg-gradient-to-br group-hover:from-indigo-500/20 group-hover:to-purple-500/20 group-hover:text-white transition-all duration-300">
-                  {index + 1}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+          {/* Navigation Arrows */}
+          <button
+            onClick={() => setActiveIndex((activeIndex - 1 + audiences.length) % audiences.length)}
+            className="absolute left-2 sm:left-0 bottom-6 sm:top-1/2 sm:-translate-y-1/2 sm:-translate-x-12 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gray-800/90 backdrop-blur-sm border-2 border-gray-700 flex items-center justify-center text-white hover:bg-gray-700 hover:border-indigo-500 active:scale-95 transition-all duration-200 z-40 shadow-xl"
+            aria-label="Previous"
+          >
+            <svg className="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button
+            onClick={() => setActiveIndex((activeIndex + 1) % audiences.length)}
+            className="absolute right-2 sm:right-0 bottom-6 sm:top-1/2 sm:-translate-y-1/2 sm:translate-x-12 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gray-800/90 backdrop-blur-sm border-2 border-gray-700 flex items-center justify-center text-white hover:bg-gray-700 hover:border-indigo-500 active:scale-95 transition-all duration-200 z-40 shadow-xl"
+            aria-label="Next"
+          >
+            <svg className="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
 
-        {/* Bottom CTA */}
-        <div className="mt-16 text-center">
-          <div className="inline-flex flex-col items-center gap-4 p-8 bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-pink-500/10 rounded-2xl border border-indigo-500/20">
-            <div className="flex -space-x-2">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 border-2 border-gray-900 flex items-center justify-center text-white text-xs font-bold">
-                A
-              </div>
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 border-2 border-gray-900 flex items-center justify-center text-white text-xs font-bold">
-                T
-              </div>
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 border-2 border-gray-900 flex items-center justify-center text-white text-xs font-bold">
-                G
-              </div>
-            </div>
-            <div>
-              <h3 className="text-xl font-bold text-white mb-2">Join traders like you</h3>
-              <p className="text-gray-400">Get started with QuantSignal today</p>
-            </div>
+          {/* Dots Indicator */}
+          <div className="flex justify-center gap-2 sm:gap-2.5 mt-6 sm:mt-8">
+            {audiences.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setActiveIndex(index)}
+                className={`h-2.5 sm:h-2 rounded-full transition-all duration-300 touch-manipulation ${
+                  index === activeIndex 
+                    ? 'w-10 sm:w-8 bg-gradient-to-r from-indigo-500 to-purple-500' 
+                    : 'w-2.5 sm:w-2 bg-gray-600 hover:bg-gray-500 active:bg-gray-400'
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
           </div>
         </div>
       </div>
